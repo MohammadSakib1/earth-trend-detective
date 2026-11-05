@@ -155,3 +155,45 @@ The following decisions remain open:
 - Deployment infrastructure
 
 These decisions will be updated after data-source evaluation and technical validation.
+
+
+flowchart TB
+    USER["User"]
+
+ '''   subgraph FRONTEND["Frontend Layer"]
+        UI["React Dashboard"]
+        INPUT["Variable, Region and Time Selection"]
+        CHART["Time-Series Charts"]
+        DISPLAY["Trend Summary and Results"]
+        UI --> INPUT
+        CHART --> UI
+        DISPLAY --> UI
+    end
+'''
+    subgraph BACKEND["Backend Layer - FastAPI"]
+        API["REST API"]
+        VALIDATE["Request Validation"]
+        CATALOG["Variable Catalog"]
+        ADAPTER["NASA Data Adapter"]
+        PROCESS["Data Processing"]
+        ANALYSIS["Statistical Analysis Engine"]
+        RESULT["Result Builder"]
+        PROVENANCE["Data Provenance"]
+    end
+
+ '''   NASA["NASA Earth Science Data Sources"]
+
+  '''  USER --> UI
+    INPUT -->|"Analysis Request"| API
+    API --> VALIDATE
+    VALIDATE --> CATALOG
+    CATALOG --> ADAPTER
+    ADAPTER <-->|"Data Retrieval"| NASA
+    ADAPTER --> PROCESS
+    PROCESS --> ANALYSIS
+    ANALYSIS --> RESULT
+    RESULT --> PROVENANCE
+    PROVENANCE --> API
+    API -->|"Analysis Response"| CHART
+    API --> DISPLAY
+'''
