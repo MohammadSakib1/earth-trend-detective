@@ -74,3 +74,35 @@ The system shall display the dataset name, source, units, temporal coverage, and
 
 ### FR-12: Error Handling
 The system shall inform users when data are unavailable, invalid, or cannot be retrieved. It shall not generate fabricated scientific results.
+
+## 7. Non-functional Requirements
+
+### NFR-01: Reliability
+The system shall handle data retrieval failures, missing observations, and invalid inputs without producing misleading scientific results.
+
+### NFR-02: Scientific Accuracy
+The system shall use documented data sources and appropriate statistical methods. It shall communicate uncertainty and avoid unsupported scientific conclusions.
+
+### NFR-03: Usability
+The user interface shall be understandable and easy to navigate for students, educators, researchers, and general users with basic scientific knowledge.
+
+### NFR-04: Performance
+The system shall process analysis requests efficiently and provide clear feedback during data retrieval and computation. Performance targets shall be established after testing with the selected datasets.
+
+### NFR-05: Maintainability
+The application shall use a modular structure so that data sources, analysis methods, and interface components can be updated independently where possible.
+
+### NFR-06: Scalability
+The architecture should support adding more environmental variables, geographic regions, and datasets without requiring a complete redesign.
+
+### NFR-07: Testability
+Data processing and statistical analysis components shall be testable independently using controlled test datasets.
+
+### NFR-08: Reproducibility
+The system shall record relevant dataset information, analysis parameters, and methodology so that results can be independently reviewed and reproduced where the source data permit.
+
+### NFR-09: Data Transparency
+The system shall clearly communicate data units, temporal coverage, source information, processing decisions, and analysis limitations.
+
+### NFR-10: Security
+The application shall validate user inputs, protect any required credentials, and avoid exposing sensitive configuration information through the frontend or public repository.
