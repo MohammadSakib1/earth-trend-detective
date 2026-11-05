@@ -106,3 +106,69 @@ The system shall clearly communicate data units, temporal coverage, source infor
 
 ### NFR-10: Security
 The application shall validate user inputs, protect any required credentials, and avoid exposing sensitive configuration information through the frontend or public repository.
+
+## 8. Minimum Viable Product (MVP) Scope
+
+### 8.1 MVP Objective
+
+The MVP will demonstrate a complete and scientifically verifiable workflow for identifying, visualizing, and analyzing an environmental trend using a verified Earth science data source.
+
+### 8.2 Core MVP Features
+
+**Feature 1: Variable Selection**
+- Display available environmental variables.
+- Provide a simple description and unit for each variable.
+- Initially support a limited number of verified variables.
+
+**Feature 2: Geographic Region Selection**
+- Allow users to select a supported geographic region.
+- Initially support one or a small number of regions based on dataset availability and spatial resolution.
+
+**Feature 3: Time Period Selection**
+- Allow users to specify the start and end dates.
+- Validate the selected period against the dataset's temporal coverage.
+
+**Feature 4: Data Retrieval**
+- Retrieve real observations from a verified NASA data source.
+- Display a clear error if the requested data are unavailable.
+
+**Feature 5: Data Processing**
+- Validate observations and units.
+- Handle missing values using documented rules.
+- Generate a suitable time series.
+
+**Feature 6: Trend Analysis**
+- Calculate the direction and magnitude of the trend.
+- Apply an appropriate statistical significance test.
+- Report relevant statistical evidence and uncertainty.
+
+**Feature 7: Data Visualization**
+- Display the time series using an interactive or readable chart.
+- Show the estimated trend and relevant labels.
+
+**Feature 8: Result Explanation**
+- Explain whether the variable is increasing, decreasing, or showing no clear trend.
+- Show the estimated rate of change.
+- Explain statistical significance without claiming causation.
+
+**Feature 9: Data Provenance**
+- Display the NASA dataset name, source, units, selected period, and analysis method.
+
+### 8.3 Features for Future Development
+
+The following features may be added after the core workflow is completed:
+
+- Multiple environmental variables
+- More geographic regions
+- Regional comparison
+- Interactive geographic maps
+- Additional statistical methods
+- Downloadable analysis reports
+- Advanced variable discovery and recommendations
+
+### 8.4 MVP Limitations
+
+- The MVP will only support variables and regions covered by verified datasets.
+- Analysis results will depend on data quality and temporal coverage.
+- The system will not claim that a statistical trend proves a particular environmental cause.
+- Predictions and unsupported causal explanations are outside the initial MVP scope.
