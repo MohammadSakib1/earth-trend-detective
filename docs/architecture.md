@@ -159,7 +159,7 @@ These decisions will be updated after data-source evaluation and technical valid
 ## 7. High-Level Architecture Diagram
 
 ```mermaid
-`flowchart TB`
+flowchart TB
     USER["User"]
 
     subgraph FRONTEND["Frontend Layer"]
