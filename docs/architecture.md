@@ -158,7 +158,7 @@ These decisions will be updated after data-source evaluation and technical valid
 
 ## 7. High-Level Architecture Diagram
 
-~~~
+```
 
 flowchart TB
     USER["User"]
@@ -200,4 +200,4 @@ flowchart TB
     API -->|"Analysis Response"| CHART
     API --> DISPLAY
 
-~~~
+```
