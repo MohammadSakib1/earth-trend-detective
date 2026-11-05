@@ -222,3 +222,46 @@ The frontend is responsible for user interaction, analysis configuration, and di
 | Result Panel | Presents analysis summaries and interpretations |
 | Provenance Panel | Displays data sources, units, methods, and analysis information |
 | Error Display | Shows validation errors and data retrieval failures |
+
+
+### 8.2 Backend Components
+
+The backend is responsible for processing analysis requests, coordinating data retrieval, executing scientific analysis, and returning structured results.
+
+| Component | Responsibility |
+|---|---|
+| API Router | Defines REST API endpoints and handles incoming requests |
+| Request Validator | Validates variable, region, time range, and other user inputs |
+| Variable Catalog | Maintains supported variables, datasets, units, and metadata |
+| Analysis Service | Coordinates the complete analysis workflow |
+| Data Retrieval Service | Requests data from the appropriate NASA data adapter |
+| Data Processing Service | Handles missing values, filtering, aggregation, and preprocessing |
+| Statistical Analysis Service | Calculates trend magnitude, direction, and statistical significance |
+| Result Builder | Organizes analysis outputs into a structured response |
+| Provenance Manager | Records data sources, methods, units, and processing details |
+| Error Handler | Handles API, validation, and data retrieval errors |
+
+
+
+### 8.3 NASA Data Adapter Components
+
+The NASA Data Adapter layer provides a consistent interface between the backend and external NASA Earth science data sources.
+
+| Component | Responsibility |
+|---|---|
+| Data Source Registry | Maintains information about supported NASA data products and their access methods |
+| Dataset Adapter | Provides a common interface for retrieving data from different NASA datasets |
+| MODIS Adapter | Handles data retrieval from supported MODIS products |
+| AIRS Adapter | Handles data retrieval from supported AIRS products |
+| GPM Adapter | Handles data retrieval from supported GPM products |
+| MERRA-2 Adapter | Handles data retrieval from supported MERRA-2 products |
+| GLDAS Adapter | Handles data retrieval from supported GLDAS products |
+| Metadata Extractor | Extracts dataset metadata, units, timestamps, and spatial information |
+| Data Format Handler | Converts retrieved data into a consistent internal format |
+| Retrieval Error Handler | Handles unavailable datasets, network failures, and retrieval errors |
+
+**Design Principle:**
+
+All dataset-specific adapters must follow a common interface. This allows the backend to retrieve data without depending on the internal implementation of a particular NASA data source.
+
+Only verified and accessible NASA data products will be enabled in the final implementation.
