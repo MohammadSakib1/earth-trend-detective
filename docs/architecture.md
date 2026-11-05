@@ -764,3 +764,60 @@ Each test dataset must have documented characteristics and expected results wher
 - Integration tests should verify real service interactions where practical.
 - Test failures must be documented and resolved before deployment.
 - Scientific outputs must be reproducible using recorded inputs and methods.
+
+## 16. Monitoring and Logging Architecture
+
+### 16.1 Monitoring Components
+
+| Component | Responsibility |
+|---|---|
+| Application Logger | Records application events and errors |
+| API Monitor | Tracks API availability and response time |
+| Error Monitor | Records backend and external service failures |
+| Performance Monitor | Tracks data retrieval and analysis execution time |
+
+### 16.2 Logging Strategy
+
+- Use structured application logs.
+- Record API errors and NASA data retrieval failures.
+- Track analysis execution time and processing errors.
+- Avoid logging passwords, API keys, or sensitive information.
+- Use logs to troubleshoot application failures.
+
+### 16.3 Monitoring Principles
+
+- Monitor backend health and API availability.
+- Detect failed data retrieval and analysis operations.
+- Track resource usage and deployment limitations.
+- Keep monitoring lightweight for the initial MVP.
+## 17. Sequence Diagram
+
+### 17.1 Earth System Trend Analysis Workflow
+
+The sequence diagram illustrates how the system processes an analysis request from the user and returns the final trend results.
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant UI as React Frontend
+    participant API as FastAPI Backend
+    participant Adapter as NASA Data Adapter
+    participant NASA as NASA Data Source
+    participant Processor as Data Processor
+    participant Analyzer as Statistical Analyzer
+
+    User->>UI: Select variable, region and time period
+    User->>UI: Request analysis
+    UI->>API: POST /api/v1/analysis
+    API->>API: Validate request
+    API->>Adapter: Request NASA data
+    Adapter->>NASA: Fetch requested data
+    NASA-->>Adapter: Return raw data
+    Adapter-->>API: Return standardized data
+    API->>Processor: Process and validate data
+    Processor-->>API: Return processed time series
+    API->>Analyzer: Perform trend analysis
+    Analyzer-->>API: Return trend statistics
+    API-->>UI: Return analysis results
+    UI-->>User: Display charts and trend summary
+```
