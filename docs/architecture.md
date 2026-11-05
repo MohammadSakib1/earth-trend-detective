@@ -158,10 +158,11 @@ These decisions will be updated after data-source evaluation and technical valid
 
 ## 7. High-Level Architecture Diagram
 
-```
+
 
 flowchart TB
-    USER["User"]
+
+```    USER["User"]
 
     subgraph FRONTEND["Frontend Layer"]
         UI["React Dashboard"]
