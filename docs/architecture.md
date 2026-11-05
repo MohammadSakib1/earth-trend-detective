@@ -157,10 +157,10 @@ The following decisions remain open:
 These decisions will be updated after data-source evaluation and technical validation.
 
 
-flowchart TB
+'''flowchart TB
     USER["User"]
 
- '''   subgraph FRONTEND["Frontend Layer"]
+    subgraph FRONTEND["Frontend Layer"]
         UI["React Dashboard"]
         INPUT["Variable, Region and Time Selection"]
         CHART["Time-Series Charts"]
@@ -169,7 +169,7 @@ flowchart TB
         CHART --> UI
         DISPLAY --> UI
     end
-'''
+
     subgraph BACKEND["Backend Layer - FastAPI"]
         API["REST API"]
         VALIDATE["Request Validation"]
@@ -181,9 +181,9 @@ flowchart TB
         PROVENANCE["Data Provenance"]
     end
 
- '''   NASA["NASA Earth Science Data Sources"]
+    NASA["NASA Earth Science Data Sources"]
 
-  '''  USER --> UI
+    USER --> UI
     INPUT -->|"Analysis Request"| API
     API --> VALIDATE
     VALIDATE --> CATALOG
