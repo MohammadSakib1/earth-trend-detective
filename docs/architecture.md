@@ -197,4 +197,23 @@ flowchart TB
     RESULT --> PROVENANCE
     PROVENANCE --> API
     API -->|"Analysis Response"| CHART
-    API --> DISPLAY
+    API --> DISPLAY ```
+
+## 8. Component Architecture
+
+### 8.1 Frontend Components
+
+The frontend is responsible for user interaction, analysis configuration, and displaying scientific results.
+
+| Component | Responsibility |
+|---|---|
+| Dashboard | Main interface and navigation |
+| Variable Selector | Allows users to select an Earth science variable |
+| Region Selector | Allows users to select a geographic region |
+| Time Range Selector | Allows users to specify the analysis period |
+| Analysis Controller | Collects user inputs and sends requests to the backend API |
+| Time-Series Chart | Visualizes historical data over time |
+| Trend Visualization | Displays trend direction, magnitude, and statistical significance |
+| Result Panel | Presents analysis summaries and interpretations |
+| Provenance Panel | Displays data sources, units, methods, and analysis information |
+| Error Display | Shows validation errors and data retrieval failures |
