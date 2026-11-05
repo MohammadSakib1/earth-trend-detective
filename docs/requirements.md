@@ -172,3 +172,60 @@ The following features may be added after the core workflow is completed:
 - Analysis results will depend on data quality and temporal coverage.
 - The system will not claim that a statistical trend proves a particular environmental cause.
 - Predictions and unsupported causal explanations are outside the initial MVP scope.
+
+## 9. Acceptance Criteria
+
+The MVP will be considered successful when the following conditions are satisfied.
+
+### AC-01: Variable Selection
+A user can view and select at least one verified Earth science variable, including its description and measurement unit.
+
+### AC-02: Region Selection
+A user can select at least one geographic region supported by the selected dataset.
+
+### AC-03: Time Period Validation
+The system accepts valid start and end dates within the dataset's available temporal coverage and rejects invalid date ranges.
+
+### AC-04: Data Retrieval
+The system successfully retrieves real data from the configured NASA data source for a supported variable, region, and time period.
+
+### AC-05: Data Quality
+The system identifies missing or invalid observations and applies documented preprocessing rules without silently changing the scientific meaning of the data.
+
+### AC-06: Time-Series Generation
+The system generates a time series from the validated observations with correct dates and units.
+
+### AC-07: Trend Calculation
+The system calculates the trend direction and rate of change using a documented statistical method.
+
+### AC-08: Significance Evaluation
+The system performs an appropriate statistical significance test and reports its result with a suitable interpretation.
+
+### AC-09: Visualization
+The user can view the time-series chart, including axis labels, units, and the estimated trend where applicable.
+
+### AC-10: Result Interpretation
+The system explains the trend direction, magnitude, and statistical evidence in understandable language.
+
+### AC-11: Data Provenance
+The user can identify the source dataset, data period, measurement units, and analysis methodology used for the result.
+
+### AC-12: Error Handling
+When data retrieval or analysis fails, the system displays an informative error and does not present fabricated results as scientific findings.
+
+### AC-13: Independent Testing
+The analysis module produces expected results on controlled synthetic test datasets with known increasing, decreasing, and constant trends.
+
+## 10. Open Design Decisions
+
+The following decisions must be finalized before implementation:
+
+1. Selection of the NASA dataset and its access method.
+2. Initial environmental variables and their measurement units.
+3. Supported geographic regions and spatial resolution.
+4. Temporal aggregation method.
+5. Trend estimation and statistical significance methods.
+6. Missing-data handling and quality-control rules.
+7. Application deployment and hosting strategy.
+
+These decisions will be documented and updated as the project progresses.
