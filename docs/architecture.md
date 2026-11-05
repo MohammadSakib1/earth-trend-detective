@@ -265,3 +265,95 @@ The NASA Data Adapter layer provides a consistent interface between the backend 
 All dataset-specific adapters must follow a common interface. This allows the backend to retrieve data without depending on the internal implementation of a particular NASA data source.
 
 Only verified and accessible NASA data products will be enabled in the final implementation.
+
+
+### 8.4 Statistical Analysis Components
+
+The Statistical Analysis layer processes validated time-series data and identifies long-term trends, their magnitude, and statistical significance.
+
+| Component | Responsibility |
+|---|---|
+| Time-Series Generator | Organizes processed observations into a chronological time series |
+| Temporal Aggregator | Aggregates observations into monthly, seasonal, or annual values |
+| Data Quality Checker | Checks missing values, invalid observations, and data consistency |
+| Trend Calculator | Calculates the direction and magnitude of a trend |
+| Linear Regression Analyzer | Estimates the rate of change using linear regression |
+| Mann-Kendall Test | Tests for the presence of a monotonic trend |
+| Significance Evaluator | Evaluates statistical significance using appropriate statistical tests |
+| Confidence Interval Calculator | Estimates uncertainty around trend statistics |
+| Result Interpreter | Converts statistical outputs into understandable scientific summaries |
+| Analysis Metadata Recorder | Records the analysis method, parameters, and processing information |
+
+**Scientific Integrity Principles:**
+
+- Missing or invalid observations must be handled using documented rules.
+- Statistical methods must be appropriate for the selected dataset and time series.
+- Statistical significance must not be confused with practical significance.
+- Trend analysis must not be presented as proof of causation.
+- Results must include relevant methods, assumptions, and limitations.
+
+
+## 9. System Data Flow
+
+### 9.1 End-to-End Data Flow
+
+The system follows a structured workflow from user input to scientific result generation.
+
+The main data flow consists of the following stages:
+
+1. User Input: The user selects an Earth science variable, geographic region, and analysis time period.
+2. Request Submission: The frontend sends the analysis request to the FastAPI backend.
+3. Request Validation: The backend validates the selected variable, region, and time range.
+4. Dataset Selection: The Variable Catalog identifies a suitable supported NASA dataset.
+5. Data Retrieval: The NASA Data Adapter retrieves the required data from the selected source.
+6. Data Processing: Retrieved observations are validated, filtered, and transformed into a consistent time-series format.
+7. Statistical Analysis: The Analysis Engine calculates trend magnitude, direction, and statistical significance.
+8. Result Generation: The Result Builder prepares the analysis results and supporting metadata.
+9. Result Delivery: The backend returns the structured response to the frontend.
+10. Visualization: The frontend displays time-series charts, trend summaries, and data provenance.
+
+### 9.2 System Data Flow Diagram
+
+```mermaid
+flowchart TD
+    A["User"]
+    B["React Dashboard"]
+    C["Analysis Request"]
+    D["FastAPI Backend"]
+    E["Request Validation"]
+    F["Variable Catalog"]
+    G["NASA Data Adapter"]
+    H["NASA Data Sources"]
+    I["Data Processing"]
+    J["Time-Series Generator"]
+    K["Statistical Analysis Engine"]
+    L["Result Builder"]
+    M["Provenance Manager"]
+    N["API Response"]
+    O["Charts and Trend Results"]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G <--> H
+    G --> I
+    I --> J
+    J --> K
+    K --> L
+    L --> M
+    M --> N
+    N --> O
+    O --> A
+```
+
+### 9.3 Data Flow Principles
+
+- All analysis requests must pass through backend validation.
+- NASA data retrieval must use the appropriate dataset adapter.
+- Raw retrieved data must be processed before statistical analysis.
+- Statistical results must include relevant metadata and provenance.
+- The frontend must display results returned by the backend without inventing scientific values.
+- Errors at any stage must produce clear and understandable feedback.
