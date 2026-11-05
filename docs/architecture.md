@@ -509,3 +509,258 @@ Before statistical analysis, the system must:
 - Internal logs should retain technical details for debugging.
 - Invalid or incomplete data must not be presented as valid scientific results.
 - The system must distinguish between missing data, retrieval failure, and statistically insignificant trends.
+
+## 12. Database and Data Storage Architecture
+
+### 12.1 Storage Strategy
+
+The system will use a lightweight and modular storage strategy suitable for the initial MVP.
+
+The application will distinguish between temporary scientific data, persistent analysis results, and supporting metadata.
+
+### 12.2 Storage Components
+
+| Storage Component | Responsibility |
+|---|---|
+| SQLite Database | Stores analysis records and structured metadata during MVP development |
+| PostgreSQL Database | Potential future database for multi-user and production deployment |
+| Temporary File Storage | Stores intermediate datasets during data processing |
+| Data Cache | Temporarily stores reusable retrieved data to reduce repeated requests |
+| Analysis Result Storage | Stores completed analysis results and their identifiers |
+| Provenance Storage | Stores dataset information, units, methods, timestamps, and processing details |
+
+### 12.3 Data Storage Categories
+
+| Data Category | Storage Strategy |
+|---|---|
+| User Analysis Requests | Store validated request parameters |
+| NASA Dataset Metadata | Store dataset identifiers, source information, and units |
+| Raw NASA Data | Retrieve when needed; avoid permanent duplication unless required |
+| Processed Time-Series | Use temporary storage or cache when appropriate |
+| Statistical Results | Store analysis outputs and relevant parameters |
+| Data Provenance | Store alongside the corresponding analysis record |
+| Application Logs | Store separately from scientific results |
+
+### 12.4 Data Lifecycle
+
+1. The user submits an analysis request.
+2. The backend validates the request.
+3. The NASA Data Adapter retrieves the required observations.
+4. Retrieved data is temporarily stored for processing.
+5. The Data Processing Service generates a validated time series.
+6. The Statistical Analysis Engine calculates the trend statistics.
+7. The Result Builder creates the structured result.
+8. The analysis result and provenance metadata are stored.
+9. Temporary files are removed according to the configured retention policy.
+
+### 12.5 Storage Design Principles
+
+- Store only the data required by the application.
+- Avoid unnecessary duplication of NASA datasets.
+- Keep scientific results linked to their source and methodology.
+- Use temporary storage for intermediate processing files.
+- Apply appropriate retention and cleanup policies.
+- Never store passwords, API secrets, or sensitive credentials in the database as plain text.
+- Keep database access isolated behind backend services.
+- Use database migrations when the storage schema changes.
+
+### 12.6 MVP and Future Scalability
+
+For the initial MVP, SQLite and temporary file storage are proposed because they are simple to configure and suitable for a small demonstration.
+
+PostgreSQL and dedicated object storage may be introduced if the application requires concurrent users, larger datasets, or persistent file management.
+
+The final storage technology will be confirmed after the NASA data retrieval workflow and deployment environment are verified.
+
+## 13. Security Architecture
+
+### 13.1 Security Overview
+
+The system follows a security-by-design approach to protect application services, external API credentials, and user-submitted data.
+
+Security controls will be implemented across the frontend, backend, data retrieval, and deployment layers.
+
+### 13.2 Security Components
+
+| Component | Responsibility |
+|---|---|
+| API Security Layer | Controls access to backend endpoints |
+| Input Validation | Rejects malformed or unexpected user inputs |
+| Secret Manager / Environment Configuration | Keeps API keys and credentials outside source code |
+| CORS Configuration | Restricts browser-based access to approved frontend origins |
+| HTTPS Communication | Protects data transmitted between clients and backend services |
+| Error Sanitization | Prevents internal stack traces and sensitive information from reaching users |
+| Dependency Management | Tracks and updates third-party software dependencies |
+| Logging Security | Prevents credentials and sensitive information from appearing in logs |
+
+### 13.3 Authentication and Authorization
+
+The initial MVP may support public access to non-sensitive scientific analysis features.
+
+If user accounts or protected analysis resources are introduced, authentication and authorization will be implemented before exposing those features.
+
+### 13.4 API Protection
+
+- Validate all incoming requests using backend validation.
+- Apply request size and execution-time limits.
+- Configure appropriate rate limiting for API endpoints.
+- Restrict CORS to approved frontend origins.
+- Use HTTPS in production.
+- Return safe and standardized error responses.
+
+### 13.5 Secret and Credential Management
+
+- Never commit API keys, passwords, or access tokens to GitHub.
+- Store credentials in environment variables or the hosting platform's secret manager.
+- Maintain a `.env.example` file containing placeholder values only.
+- Add actual `.env` files to `.gitignore`.
+- Rotate exposed credentials immediately.
+
+### 13.6 Data Protection
+
+- Minimize the collection and storage of user information.
+- Avoid storing unnecessary personal information.
+- Do not expose private credentials in API responses.
+- Restrict access to persistent analysis records where authentication is required.
+- Apply appropriate retention policies to temporary data.
+
+### 13.7 Security Principles
+
+- Follow the principle of least privilege.
+- Keep frontend and backend responsibilities separated.
+- Use secure defaults for application configuration.
+- Keep dependencies updated.
+- Document security limitations and assumptions.
+
+## 14. Deployment Architecture
+
+### 14.1 Deployment Overview
+
+The application will follow a web-based deployment architecture consisting of a React frontend, a Python FastAPI backend, and supporting storage services.
+
+The initial deployment will prioritize free-tier hosting options suitable for a hackathon MVP.
+
+### 14.2 Deployment Components
+
+| Component | Deployment Responsibility |
+|---|---|
+| React Frontend | Hosts the user interface and visualization components |
+| FastAPI Backend | Hosts REST API endpoints and application services |
+| Database | Stores analysis records and structured metadata |
+| Temporary File Storage | Supports intermediate scientific data processing |
+| External NASA Services | Provides Earth science datasets and related information |
+| GitHub Repository | Maintains source code, documentation, and version history |
+
+### 14.3 Deployment Architecture Diagram
+
+```mermaid
+flowchart TB
+    USER["User / Browser"]
+
+    subgraph HOSTING["Cloud Hosting Environment"]
+        FRONTEND["React Frontend Hosting"]
+        BACKEND["FastAPI Backend Hosting"]
+        DATABASE["Database Storage"]
+        FILES["Temporary File Storage"]
+    end
+
+    NASA["NASA External Data Services"]
+
+    USER -->|"HTTPS"| FRONTEND
+    FRONTEND -->|"REST API / HTTPS"| BACKEND
+    BACKEND <--> DATABASE
+    BACKEND <--> FILES
+    BACKEND <-->|"Data Requests"| NASA
+```
+
+### 14.4 Deployment Workflow
+
+1. Developers push application code to the GitHub repository.
+2. The frontend and backend are prepared for deployment.
+3. The React frontend is deployed to a suitable static hosting platform.
+4. The FastAPI backend is deployed to a compatible cloud hosting platform.
+5. Environment variables and required secrets are configured securely.
+6. The frontend is configured to communicate with the deployed backend.
+7. Database and storage connections are configured.
+8. The deployed application is tested through its public URL.
+
+### 14.5 Deployment Strategy
+
+- Prefer free-tier hosting for the initial MVP.
+- Keep frontend and backend deployments independent.
+- Use HTTPS for production communication.
+- Configure environment variables separately for each deployment environment.
+- Keep development and production configurations separate.
+- Verify external NASA service connectivity after deployment.
+- Document hosting limitations, resource quotas, and availability constraints.
+
+### 14.6 Future Deployment Improvements
+
+- Introduce containerization using Docker if required.
+- Use a production-grade database when application usage increases.
+- Introduce dedicated object storage for larger scientific datasets.
+- Configure automated deployment through GitHub Actions.
+- Improve application availability and monitoring.
+
+The final hosting providers will be selected after verifying their free-tier limits, deployment requirements, and compatibility with the application.
+
+
+## 15. Testing Architecture
+
+### 15.1 Testing Strategy
+
+The system will follow a layered testing strategy to verify application functionality, scientific correctness, data integrity, and deployment reliability.
+
+### 15.2 Testing Components
+
+| Testing Type | Responsibility |
+|---|---|
+| Unit Testing | Tests individual functions and components independently |
+| API Testing | Verifies backend endpoints, request validation, and response structures |
+| Integration Testing | Tests communication between frontend, backend, data adapters, and storage |
+| Data Validation Testing | Checks data formats, timestamps, units, missing values, and consistency |
+| Statistical Testing | Verifies trend calculations and statistical significance methods |
+| Frontend Testing | Checks user interactions, input validation, and visualization behavior |
+| End-to-End Testing | Tests the complete workflow from user input to final results |
+| Performance Testing | Measures response time and processing performance |
+| Deployment Testing | Verifies application availability and functionality after deployment |
+
+### 15.3 Scientific Validation
+
+Scientific validation is a critical part of the testing process.
+
+- Use controlled datasets with known expected outcomes.
+- Verify linear regression calculations against independently calculated results.
+- Test Mann-Kendall calculations using datasets with known trend characteristics.
+- Verify confidence interval calculations and statistical assumptions.
+- Test behavior with missing, duplicate, and irregular observations.
+- Confirm that units and temporal aggregation are handled consistently.
+- Ensure that synthetic test data is never presented as real NASA observations.
+
+### 15.4 Test Data Strategy
+
+The system will use two categories of test data:
+
+1. Synthetic Test Data: Artificially generated datasets used to verify processing and statistical calculations.
+2. Verified NASA Data: Actual NASA observations used to validate data retrieval and end-to-end scientific workflows.
+
+Each test dataset must have documented characteristics and expected results where applicable.
+
+### 15.5 Testing Tools
+
+| Tool | Intended Purpose |
+|---|---|
+| pytest | Python backend and scientific analysis tests |
+| FastAPI TestClient | Backend API testing |
+| React Testing Library | Frontend component testing |
+| Vitest | Frontend unit testing |
+| GitHub Actions | Automated testing and continuous integration |
+
+### 15.6 Testing Principles
+
+- Critical scientific calculations must have automated tests.
+- Each major backend service must be independently testable.
+- External NASA services should be mocked during isolated unit tests.
+- Integration tests should verify real service interactions where practical.
+- Test failures must be documented and resolved before deployment.
+- Scientific outputs must be reproducible using recorded inputs and methods.
