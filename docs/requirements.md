@@ -34,3 +34,43 @@ The objective of this project is to develop an interactive tool that enables use
 ### 5. Initial Scope
 
 The initial version will focus on implementing one complete and scientifically verifiable data-analysis workflow. Additional variables, regions, and analysis methods may be added after the initial workflow is validated.
+
+## 6. Functional Requirements
+
+The system shall provide the following core functionalities:
+
+### FR-01: Variable Selection
+The system shall allow users to explore and select available Earth science variables, such as temperature, precipitation, evaporation, and streamflow.
+
+### FR-02: Geographic Region Selection
+The system shall allow users to select a supported geographic region for investigation.
+
+### FR-03: Time Period Selection
+The system shall allow users to specify a start date and end date for time-series analysis.
+
+### FR-04: NASA Data Retrieval
+The system shall retrieve the selected variable's data from a verified and documented NASA Earth science data source.
+
+### FR-05: Data Validation and Preprocessing
+The system shall check retrieved data for missing values, invalid observations, date consistency, and unit information before analysis.
+
+### FR-06: Time-Series Generation
+The system shall generate a time series representing changes in the selected variable over the chosen period.
+
+### FR-07: Trend Analysis
+The system shall calculate the direction and rate of change using an appropriate statistical method.
+
+### FR-08: Statistical Significance Testing
+The system shall evaluate whether the detected trend is statistically significant using an appropriate statistical test, such as the Mann-Kendall test or a suitable alternative.
+
+### FR-09: Data Visualization
+The system shall display the time series and estimated trend through understandable charts.
+
+### FR-10: Result Interpretation
+The system shall present the trend direction, magnitude, statistical evidence, and relevant limitations in understandable language.
+
+### FR-11: Data Provenance
+The system shall display the dataset name, source, units, temporal coverage, and analysis methodology used to produce the result.
+
+### FR-12: Error Handling
+The system shall inform users when data are unavailable, invalid, or cannot be retrieved. It shall not generate fabricated scientific results.
