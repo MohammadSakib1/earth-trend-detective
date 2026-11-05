@@ -156,8 +156,11 @@ The following decisions remain open:
 
 These decisions will be updated after data-source evaluation and technical validation.
 
+## 7. High-Level Architecture Diagram
 
-'''flowchart TB
+~~~
+
+flowchart TB
     USER["User"]
 
     subgraph FRONTEND["Frontend Layer"]
@@ -196,4 +199,5 @@ These decisions will be updated after data-source evaluation and technical valid
     PROVENANCE --> API
     API -->|"Analysis Response"| CHART
     API --> DISPLAY
-'''
+
+~~~
