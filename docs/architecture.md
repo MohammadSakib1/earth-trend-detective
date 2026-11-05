@@ -158,11 +158,9 @@ These decisions will be updated after data-source evaluation and technical valid
 
 ## 7. High-Level Architecture Diagram
 
-
-
+```mermaid
 flowchart TB
-
-```    USER["User"]
+    USER["User"]
 
     subgraph FRONTEND["Frontend Layer"]
         UI["React Dashboard"]
@@ -200,5 +198,3 @@ flowchart TB
     PROVENANCE --> API
     API -->|"Analysis Response"| CHART
     API --> DISPLAY
-
-```
