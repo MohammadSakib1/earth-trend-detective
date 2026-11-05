@@ -439,3 +439,73 @@ Note: The response above is a structural example, not an actual scientific resul
 - Version API endpoints to support future changes.
 - Never return fabricated scientific measurements or statistical results.
 - Include units, dataset information, and analysis metadata in scientific responses.
+
+## 11. API Error Handling and Response Validation
+
+### 11.1 Error Handling Strategy
+
+The backend must handle errors consistently across all API endpoints. Errors must be reported with meaningful messages without exposing internal system details.
+
+### 11.2 HTTP Status Codes
+
+| Status Code | Meaning | Example |
+|---|---|---|
+| 200 | OK | Analysis result retrieved successfully |
+| 201 | Created | Analysis request successfully created |
+| 400 | Bad Request | Invalid request parameters |
+| 404 | Not Found | Requested analysis or resource does not exist |
+| 422 | Unprocessable Entity | Request validation failed |
+| 429 | Too Many Requests | API rate limit exceeded |
+| 500 | Internal Server Error | Unexpected backend error |
+| 502 | Bad Gateway | External data source returned an invalid response |
+| 503 | Service Unavailable | NASA data service or backend dependency is unavailable |
+| 504 | Gateway Timeout | External data retrieval timed out |
+
+### 11.3 Standard Error Response Structure
+
+All API errors should follow a consistent JSON structure.
+
+Example:
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "DATA_SOURCE_UNAVAILABLE",
+    "message": "The requested data source is currently unavailable.",
+    "details": "Please try again later."
+  }
+}
+```
+
+### 11.4 Input Validation Rules
+
+The backend must validate:
+
+- The requested variable must be supported.
+- The selected dataset must be available for the requested variable.
+- The geographic region must be valid and supported.
+- The start year must be earlier than or equal to the end year.
+- The requested time range must be supported by the selected dataset.
+- The temporal resolution must be supported.
+- Required request fields must not be missing or invalid.
+
+### 11.5 Data Validation Rules
+
+Before statistical analysis, the system must:
+
+- Check whether retrieved data is empty.
+- Detect missing and invalid observations.
+- Verify timestamps and chronological ordering.
+- Check measurement units and metadata.
+- Identify insufficient temporal coverage.
+- Apply documented missing-data and quality-control rules.
+
+### 11.6 Error Handling Principles
+
+- Errors must be handled at the appropriate system layer.
+- External service failures must not crash the entire application.
+- Users must receive clear and actionable error messages.
+- Internal logs should retain technical details for debugging.
+- Invalid or incomplete data must not be presented as valid scientific results.
+- The system must distinguish between missing data, retrieval failure, and statistically insignificant trends.
