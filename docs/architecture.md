@@ -357,3 +357,85 @@ flowchart TD
 - Statistical results must include relevant metadata and provenance.
 - The frontend must display results returned by the backend without inventing scientific values.
 - Errors at any stage must produce clear and understandable feedback.
+
+## 10. API Architecture
+
+### 10.1 API Design Overview
+
+The system uses RESTful APIs to enable communication between the React frontend and the FastAPI backend.
+
+The backend exposes structured HTTP endpoints that allow users to retrieve supported variables, inspect available datasets, submit analysis requests, and receive scientific results.
+
+### 10.2 API Endpoints
+
+| Method | Endpoint | Responsibility |
+|---|---|---|
+| GET | /api/health | Checks backend service availability |
+| GET | /api/v1/variables | Returns supported Earth science variables |
+| GET | /api/v1/datasets | Returns available verified datasets |
+| POST | /api/v1/analysis | Submits a new trend analysis request |
+| GET | /api/v1/analysis/{analysis_id} | Retrieves a previously generated analysis result |
+
+### 10.3 Analysis Request Structure
+
+The frontend sends a JSON request to the analysis endpoint.
+
+Example request:
+
+```json
+{
+  "variable": "temperature",
+  "region": {
+    "type": "country",
+    "name": "Bangladesh"
+  },
+  "time_range": {
+    "start_year": 2000,
+    "end_year": 2025
+  },
+  "temporal_resolution": "monthly"
+}
+```
+
+### 10.4 Analysis Response Structure
+
+The backend returns a structured JSON response containing the analysis results.
+
+Example response:
+
+```json
+{
+  "analysis_id": "example-analysis-001",
+  "status": "completed",
+  "variable": "temperature",
+  "region": "Bangladesh",
+  "time_range": {
+    "start_year": 2000,
+    "end_year": 2025
+  },
+  "trend": {
+    "direction": "increasing",
+    "magnitude": null,
+    "unit": null
+  },
+  "statistical_significance": {
+    "method": "Mann-Kendall",
+    "p_value": null,
+    "is_significant": null
+  },
+  "data_source": "Verified NASA dataset",
+  "limitations": []
+}
+```
+
+Note: The response above is a structural example, not an actual scientific result. Numerical values must come from real processed NASA observations.
+
+### 10.5 API Design Principles
+
+- Use standard HTTP methods and meaningful status codes.
+- Use JSON for request and response payloads.
+- Validate all incoming analysis requests.
+- Return clear error messages for invalid or unsuccessful requests.
+- Version API endpoints to support future changes.
+- Never return fabricated scientific measurements or statistical results.
+- Include units, dataset information, and analysis metadata in scientific responses.
